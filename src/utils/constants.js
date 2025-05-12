@@ -9,7 +9,7 @@ export const YOUTUBE_LIVE_VIDEO_API =
   GOOGLE_API_KEY;
 
 export const YOUTUBE_SEARCH_SUGGESTION_API =
-  "https://thingproxy.freeboard.io/fetch/https://clients1.google.com/complete/search?client=youtube&ds=yt&hl=en&gl=IN&q=";
+  "https://ash-yt-backend-wbxu.vercel.app/suggest?q=om";
 
 export const YOUTUBE_SEARCH_API =
   "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&key=" +
