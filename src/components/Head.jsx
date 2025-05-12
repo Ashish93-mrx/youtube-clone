@@ -43,8 +43,6 @@ const Head = () => {
 
   const getSearchResult = async (query) => {
     try {
-      console.log("in");
-      console.log(YOUTUBE_SEARCH_API + `&q=${query}`);
       const response = await fetch(YOUTUBE_SEARCH_API + `&q=${query}`);
       const result = await response.json();
       dispatch(addSearchRes(result.items));
@@ -62,12 +60,13 @@ const Head = () => {
       //  await fetch(
       //   `${encodeURIComponent("hii")}`
       // );
-      const text = await response.text();
-      const json = await JSON.parse(
-        text.substring(text.indexOf("["), text.lastIndexOf("]") + 1)
-      );
-      const suggestions = await json[1].map((item) => item[0]);
-      setSuggestions(suggestions);
+      const text = await response;
+      const data = await text.json();
+      // const json = await JSON.parse(
+      //   text.substring(text.indexOf("["), text.lastIndexOf("]") + 1)
+      // );
+      // const suggestions = await json[1].map((item) => item[0]);
+      setSuggestions(data?.suggestions);
       //update cache
       dispatch(
         cacheResults({
@@ -132,7 +131,7 @@ const Head = () => {
             <div className="absolute bg-white py-0 pl-5 w-[29rem] rounded shadow-lg  border-gray-100 dark:bg-gray-800 dark:text-white dark:border-gray-600">
               <ul>
                 {showSuggestions &&
-                  suggestions.length > 0 &&
+                  suggestions?.length > 0 &&
                   suggestions.map((item, idx) => (
                     <li
                       onClick={() => getSearchResult(item)}

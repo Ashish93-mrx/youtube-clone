@@ -5,13 +5,10 @@ const Demo = () => {
   const [text, setText] = useState(0);
   const [text2, setText2] = useState(0);
   const [isDarkTheme, setIsDarkTheme] = useState(false);
-  console.log("demo");
   useEffect(() => {
-    console.log("inside useeffect");
   }, []);
 
   const prime = useMemo(() => findPrime(text), [text]);
-  console.log("wtf called");
 
   return (
     <>

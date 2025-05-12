@@ -132,7 +132,7 @@ const FilterBar = ({ filters, activeFilter, onFilterChange }) => {
         className="flex gap-3 overflow-x-auto px-4 scrollbar-none scroll-smooth"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
-        {console.log(lists, "okokokok")}
+
         {lists.map((i) => (
           <Button
             key={i.id}
