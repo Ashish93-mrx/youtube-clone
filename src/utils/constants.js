@@ -21,5 +21,9 @@ export const YOUTUBE_TAB_LIST =
 
 export const OFFSET_LIVE_CHAT = 25;
 
+export const YT_LOGO = 'https://www.logoquake.com/uploadfile/2024/0616/youtube-2017-logoquake_b250aa.png';
+
+export const ACC_LOGO='https://th.bing.com/th/id/R.c3631c652abe1185b1874da24af0b7c7?rik=XBP%2fc%2fsPy7r3HQ&riu=http%3a%2f%2fpluspng.com%2fimg-png%2fpng-user-icon-circled-user-icon-2240.png&ehk=z4ciEVsNoCZtWiFvQQ0k4C3KTQ6wt%2biSysxPKZHGrCc%3d&risl=&pid=ImgRaw&r=0';
+
 // https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&videoCategoryId=10&regionCode=IN&maxResults=20&key=AIzaSyCQFDaM_j77RtTB26RGIE4YofQN_3SSqfI
 // https://clients1.google.com/complete/search?client=youtube&ds=yt&hl=en&gl=US&q=SEARCH_TERM

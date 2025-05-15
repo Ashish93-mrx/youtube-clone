@@ -1,21 +1,26 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { toggleMenu } from "../utils/appSlice";
 import { cacheResults } from "../utils/searchSlice";
-import { addSearchRes } from "../utils/resultSlice";
+import { addSearchRes, removeSearch } from "../utils/resultSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {
   YOUTUBE_SEARCH_SUGGESTION_API,
   YOUTUBE_SEARCH_API,
+  YT_LOGO,
+  ACC_LOGO,
 } from "../utils/constants";
 import { Link } from "react-router";
+
 import { toggleTheme } from "../utils/themeSlice";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { current } from "@reduxjs/toolkit";
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const wrapperRef = useRef(null);
+  const searchInput = useRef(null);
 
   const searchCache = useSelector((state) => state.search);
   const darkMode = useSelector((state) => state.theme.darkMode);
@@ -29,12 +34,17 @@ const Head = () => {
     };
     document.addEventListener("mousedown", handleClickOutside);
     const timer = setTimeout(() => {
+      if (searchQuery.trim() === "") return;
+
       if (searchCache[searchQuery]) {
         setSuggestions(searchCache[searchQuery]);
       } else {
         getSearchSuggestions();
       }
+
+      setShowSuggestions(true);
     }, 200);
+
     return () => {
       clearTimeout(timer);
       document.removeEventListener("mousedown", handleClickOutside);
@@ -43,6 +53,7 @@ const Head = () => {
 
   const getSearchResult = async (query) => {
     try {
+      setSearchQuery(query);
       const response = await fetch(YOUTUBE_SEARCH_API + `&q=${query}`);
       const result = await response.json();
       dispatch(addSearchRes(result.items));
@@ -57,15 +68,8 @@ const Head = () => {
       const response = await fetch(
         YOUTUBE_SEARCH_SUGGESTION_API + encodeURIComponent(searchQuery)
       );
-      //  await fetch(
-      //   `${encodeURIComponent("hii")}`
-      // );
       const text = await response;
       const data = await text.json();
-      // const json = await JSON.parse(
-      //   text.substring(text.indexOf("["), text.lastIndexOf("]") + 1)
-      // );
-      // const suggestions = await json[1].map((item) => item[0]);
       setSuggestions(data?.suggestions);
       //update cache
       dispatch(
@@ -73,7 +77,6 @@ const Head = () => {
           [searchQuery]: suggestions,
         })
       );
-      // console.log(suggestions,"koko");
       // Use the suggestions as needed
     } catch (error) {
       console.error("Error fetching suggestions:", error);
@@ -95,36 +98,53 @@ const Head = () => {
             >
               <GiHamburgerMenu />
             </span>
-            {/* <img 
-        
-        alt="menu" 
-        src="https://static.vecteezy.com/system/resources/previews/021/190/402/original/hamburger-menu-filled-icon-in-transparent-background-basic-app-and-web-ui-bold-line-icon-eps10-free-vector.jpg"
-      /> */}
             <Link to="/">
               <img
-                className="h-11 mx-2 cursor-pointer"
+                onClick={() => dispatch(removeSearch())}
+                className="hidden md:block md:h-11 md:mx-2 cursor-pointer"
                 alt="YT"
-                src="https://www.logoquake.com/uploadfile/2024/0616/youtube-2017-logoquake_b250aa.png"
+                src={YT_LOGO}
               />
             </Link>
           </div>
           <div ref={wrapperRef} className="col-span-10 px-10 relative">
-            <div>
-              <input
-                className="w-2/4 border border-gray-400 p-2 rounded-l-full bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600"
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onFocus={(e) => setShowSuggestions(true)}
-                onMouseDown={(e) => setShowSuggestions(false)}
-                onKeyDown={(e) =>
-                  e.target.value != "" &&
-                  e.key === "Enter" &&
-                  getSearchResult(e.target.value)
+            <div className="flex w-full md:w-2/4">
+              <div className="relative w-full">
+                <input
+                  className="w-full border border-gray-400 p-2 pr-10 rounded-l-full bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600"
+                  type="text"
+                  ref={searchInput}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onFocus={() => setShowSuggestions(true)}
+                  onKeyDown={(e) =>
+                    e.target.value.length !== 0 &&
+                    e.key === "Enter" &&
+                    getSearchResult(e.target.value)
+                  }
+                />
+
+                {searchQuery && (
+                  <button
+                    onClick={() => {
+                      setSearchQuery("");
+                      if (searchInput.current) searchInput.current.value = "";
+                    }}
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-black dark:hover:text-white"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+
+              <button
+                onClick={() =>
+                  searchQuery.trim() !== "" &&
+                  getSearchResult(searchQuery.trim())
                 }
-              />
-              <button className="bg-gray-400 border border-gray-400 p-2 rounded-r-full dark:bg-gray-600 dark:border-gray-600">
-                🔎
+                className="border border-gray-400 px-4 rounded-r-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white"
+              >
+                🔍
               </button>
             </div>
 
@@ -134,7 +154,10 @@ const Head = () => {
                   suggestions?.length > 0 &&
                   suggestions.map((item, idx) => (
                     <li
-                      onClick={() => getSearchResult(item)}
+                      onClick={() => {
+                        getSearchResult(item);
+                        searchInput, (current.value = item);
+                      }}
                       key={idx}
                       className="py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
                     >
@@ -143,7 +166,6 @@ const Head = () => {
                   ))}
               </ul>
             </div>
-            {/* )} */}
           </div>
           <div className="col-span-1">
             <button
@@ -153,12 +175,8 @@ const Head = () => {
               {darkMode ? "🌞" : "🌙"}
             </button>
           </div>
-          <div className="col-span-1">
-            <img
-              alt="usericon"
-              className="h-8"
-              src="https://th.bing.com/th/id/R.c3631c652abe1185b1874da24af0b7c7?rik=XBP%2fc%2fsPy7r3HQ&riu=http%3a%2f%2fpluspng.com%2fimg-png%2fpng-user-icon-circled-user-icon-2240.png&ehk=z4ciEVsNoCZtWiFvQQ0k4C3KTQ6wt%2biSysxPKZHGrCc%3d&risl=&pid=ImgRaw&r=0"
-            />
+          <div className="hidden md:block md:col-span-1">
+            <img alt="usericon" className="h-8" src={ACC_LOGO} />
           </div>
         </div>
       </div>
