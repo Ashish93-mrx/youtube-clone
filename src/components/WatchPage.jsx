@@ -37,11 +37,9 @@ const WatchPage = () => {
   return (
     <div className="flex flex-col lg:flex-row w-full bg-white text-black dark:bg-gray-900 dark:text-white p-4">
   <div className="w-full lg:w-2/3 flex flex-col gap-4">
-    <div className="pl-20">
+    <div className="md:pl-20">
       <iframe
-        className="w-full rounded-xl"
-        width="2700"
-          height="500"
+        className="w-full rounded-xl h-[200px] w-200px md:w-2700px md:h-[500px]"
         src={`https://www.youtube.com/embed/${videoId}`}
         title="YouTube video player"
         frameBorder="0"
