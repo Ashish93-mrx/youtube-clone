@@ -70,11 +70,11 @@ const Head = () => {
       );
       const text = await response;
       const data = await text.json();
-      setSuggestions(data?.suggestions);
+      setSuggestions(data);
       //update cache
       dispatch(
         cacheResults({
-          [searchQuery]: suggestions,
+          [searchQuery]: data,
         })
       );
       // Use the suggestions as needed
