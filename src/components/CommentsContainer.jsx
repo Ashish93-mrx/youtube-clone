@@ -91,7 +91,7 @@ const CommentList = ({ comments }) => {
 
 const CommentsContainer = () => {
   return (
-    <div>
+    <div className="md:block hidden">
       <div className="m-5 md:pl-20">
         <h1 className="text-2xl font-bold">Comments</h1>
         <CommentList comments={commentsData} />

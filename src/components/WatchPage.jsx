@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router"; // note: react-router-dom
 import { closeMenu } from "../utils/appSlice";
 import CommentsContainer from "./CommentsContainer";
 import LiveChat from "./LiveChat";
+import { MdAccountCircle } from "react-icons/md";
+import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
+import { IoIosShareAlt } from "react-icons/io";
+import {convertLargeNums} from '../utils/helper';
+import { HiDownload } from "react-icons/hi";
+
 
 const WatchPage = () => {
   const [searchParams] = useSearchParams();
+  const [expanded, setExpanded] = useState(false);
   const videoId = searchParams.get("v");
   const dispatch = useDispatch();
+  const videoInfo = useSelector((state)=>state.app.videoInfo);
 
   const [chatMessages, setChatMessages] = useState([]);
   const [temp, setTemp] = useState([]);
@@ -40,13 +48,53 @@ const WatchPage = () => {
     <div className="md:pl-20">
       <iframe
         className="w-full rounded-xl h-[200px] w-200px md:w-2700px md:h-[500px]"
-        src={`https://www.youtube.com/embed/${videoId}`}
+        src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
         title="YouTube video player"
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         referrerPolicy="strict-origin-when-cross-origin"
         allowFullScreen
       />
+
+      <div className="w-full rounded-lg w-200px h-auto md:w-2700px">
+        <h1 className="font-serif text-2xl py-3">{videoInfo?.snippet?.title}</h1>
+        <span className="flex flex-wrap items-center justify-between">
+        <span className="flex items-center gap-2">
+          <MdAccountCircle size={35}/>
+          {videoInfo?.snippet?.channelTitle}
+          <p className="h-9 w-24 rounded-3xl text-white bg-black dark:bg-white dark:text-black text-center flex items-center justify-center">
+  Subscribe
+</p>
+
+        </span>
+        <span className="flex items-center pt-2 md:p-0 gap-2">
+          <span className="flex flex-row bg-gray-500 h-8 rounded-2xl items-center justify-around">
+            <button className="px-3 flex"><AiOutlineLike size={20}/>{convertLargeNums(videoInfo?.statistics?.likeCount)}</button> 
+            |
+            <button className="px-3 flex">
+            <AiOutlineDislike size={20}/>
+            </button>
+          </span>
+          <div className="bg-gray-500 h-8 rounded-2xl flex items-center px-3">
+            <IoIosShareAlt/>share
+          </div>
+          <div className="bg-gray-500 h-8 rounded-2xl flex items-center px-6">
+            <HiDownload/>Download
+          </div>
+        </span>
+        </span>
+      </div>
+
+      <div className="dark:bg-gray-700 bg-gray-300 rounded-lg mt-2 p-2">
+        <span>
+          <h1 className="font-bold">{convertLargeNums(videoInfo?.statistics?.viewCount)+" "}{videoInfo?.snippet?.publishedAt.substring(0,10)}</h1>
+          <p className={`text-sm whitespace-pre-line ${expanded ? "" : "line-clamp-3"}`}>{videoInfo?.snippet?.description}</p>
+          {videoInfo?.snippet?.description?.length>150 &&
+           <button onClick={()=>setExpanded(!expanded)}>
+            {  expanded ? 'see less' : 'see more'}
+          </button>}
+        </span>
+      </div>
     </div>
 
     <CommentsContainer videoId={videoId} />

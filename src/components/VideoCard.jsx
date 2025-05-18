@@ -1,17 +1,8 @@
+import {convertLargeNums} from '../utils/helper';
+
 const VideoCard = ({ info }) => {
   const { snippet, statistics } = info;
   const { channelTitle, title, thumbnails } = snippet;
-
-  const calViews = (num) => {
-    if (num >= 1000000000) {
-      return (num / 1000000000).toFixed(1) + "B";
-    } else if (num >= 1000000) {
-      return (num / 1000000).toFixed(1) + "M";
-    } else if (num >= 1000) {
-      return (num / 1000).toFixed(1) + "K"; 
-    }
-    return num;
-  };
   
   return (
     <div className="p-2 pb-3 m-2 w-80 shadow">
@@ -23,7 +14,7 @@ const VideoCard = ({ info }) => {
       </ul>
       <span className="flex flex-row justify-between">
         <div>{channelTitle}</div>
-        <div className="font-thin text-sm">{(statistics?.viewCount) ? calViews(statistics?.viewCount)+" views" : ''}</div>
+        <div className="font-thin text-sm">{(statistics?.viewCount) ? convertLargeNums(statistics?.viewCount)+" views" : ''}</div>
         </span>
     </div>
   );

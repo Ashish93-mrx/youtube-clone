@@ -29,7 +29,7 @@ const LiveChat = ({ info }) => {
     <div className={`flex flex-row-reverse items-center h-12 w-[400px] border border-gray-500 rounded-t-xl ${showChat ? '' : 'rounded-b-xl'}`}>
         <button className="mr-5 cursor-pointer" onClick={() => setShowChat(!showChat)}>{showChat ? <TfiClose/> : <FaChevronDown/> }</button>
     </div>
-      {showChat && (<><div className="w-[400px] h-[500px] p-2 border-r border-l border-gray-500 bg-slate-100  overflow-y-scroll flex flex-col-reverse text-black dark:bg-gray-900 dark:text-white">
+      {showChat && (<><div className="w-[400px] h-[400px] p-2 border-r border-l border-gray-500 bg-slate-100  overflow-y-scroll flex flex-col-reverse text-black dark:bg-gray-900 dark:text-white">
         <div>
           {
             //don't use index as key

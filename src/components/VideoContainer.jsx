@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 import Button from "./Button";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import ShimmerCard from "./ShimmerCard";
+import { getVideoInfo } from "../utils/appSlice";
+import { useDispatch } from "react-redux";
 
 // Throttle function
 const throttle = (fn, delay) => {
@@ -30,6 +32,8 @@ const VideoContainer = () => {
   const scrollRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const videoInfo = useDispatch();
 
   // Fetch videos (initial & pagination)
   const getVideos = async (reset = false) => {
@@ -70,7 +74,8 @@ const VideoContainer = () => {
   const handleScroll = useCallback(
     throttle(() => {
       const nearBottom =
-        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100;
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 100;
 
       if (nearBottom && !loadingMore && nextPageToken) {
         setLoadingMore(true);
@@ -186,9 +191,15 @@ const VideoContainer = () => {
             const id =
               typeof video.id === "object" ? video.id.videoId : video.id;
             return (
-              <Link to={`/watch?v=${id}`} key={id}>
-                <VideoCard info={video} />
-              </Link>
+              <span
+                onClick={() => {
+                  videoInfo(getVideoInfo(video));
+                }} key={id}
+              >
+                <Link to={`/watch?v=${id}`} key={id}>
+                  <VideoCard info={video} />
+                </Link>
+              </span>
             );
           })}
         </div>
