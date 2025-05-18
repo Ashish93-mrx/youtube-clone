@@ -35,24 +35,30 @@ const WatchPage = () => {
   }, [videoId]);
 
   return (
-    <div className="flex flex-col w-full bg-white text-black dark:bg-gray-900 dark:text-white">
-      <div className="pl-20 flex w-full">
-        <iframe
-          width="2700"
+    <div className="flex flex-col lg:flex-row w-full bg-white text-black dark:bg-gray-900 dark:text-white p-4">
+  <div className="w-full lg:w-2/3 flex flex-col gap-4">
+    <div className="pl-20">
+      <iframe
+        className="w-full rounded-xl"
+        width="2700"
           height="500"
-          src={`https://www.youtube.com/embed/${videoId}`}
-          title="YouTube video player"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerPolicy="strict-origin-when-cross-origin"
-          allowFullScreen
-        />
-        <div className="w-full">
-          {temp && <LiveChat info={temp} messages={chatMessages} />}
-        </div>
-      </div>
-      <CommentsContainer videoId={videoId} />
+        src={`https://www.youtube.com/embed/${videoId}`}
+        title="YouTube video player"
+        frameBorder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerPolicy="strict-origin-when-cross-origin"
+        allowFullScreen
+      />
     </div>
+
+    <CommentsContainer videoId={videoId} />
+  </div>
+
+  <div className="w-full lg:w-1/3 mt-6 lg:mt-0 lg:pl-6">
+    {temp && <LiveChat info={temp} messages={chatMessages} />}
+  </div>
+</div>
+
   );
 };
 
