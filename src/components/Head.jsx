@@ -6,14 +6,17 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   YOUTUBE_SEARCH_SUGGESTION_API,
   YOUTUBE_SEARCH_API,
-  YT_LOGO,
   ACC_LOGO,
 } from "../utils/constants";
 import { Link } from "react-router";
 
 import { toggleTheme } from "../utils/themeSlice";
-import { GiHamburgerMenu } from "react-icons/gi";
+import { RxHamburgerMenu } from "react-icons/rx";
 import { current } from "@reduxjs/toolkit";
+import { MdOutlineLightMode,MdDarkMode } from "react-icons/md";
+import { CiSearch } from "react-icons/ci";
+import ytLogoLight from '../assets/ytLogo.png'
+import ytLogoDark from '../assets/ytLogo-dark.png'
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -71,6 +74,12 @@ const Head = () => {
       const text = await response;
       const data = await text.json();
       setSuggestions(data?.suggestions);
+      //       const text = await response.text();
+      // const json = await JSON.parse(
+      //   text.substring(text.indexOf("["), text.lastIndexOf("]") + 1)
+      // );
+      // const suggestions = await json[1].map((item) => item[0]);
+      // setSuggestions(suggestions);
       //update cache
       dispatch(
         cacheResults({
@@ -89,29 +98,35 @@ const Head = () => {
   };
   return (
     <>
-      <div className="sticky p-2 top-0 z-50 bg-white text-black dark:bg-gray-900 dark:text-white">
-        <div className="grid grid-flow-col p-2 m-2 shadow-lg">
-          <div className="flex col-span-1">
+        <div className="grid grid-flow-col p-2 shadow-lg sticky top-0 z-50 bg-white text-black dark:bg-neutral-950 dark:text-white">
+          <div className="flex items-center col-span-1">
             <span
               onClick={() => toggleMenuHandle()}
-              className="mt-4 cursor-pointer"
+              className="px-2 cursor-pointer"
             >
-              <GiHamburgerMenu />
+              <RxHamburgerMenu size={25} />
             </span>
             <Link to="/">
-              <img
+              {(darkMode) ? (<img
                 onClick={() => dispatch(removeSearch())}
-                className="hidden md:block md:h-11 md:mx-2 cursor-pointer"
+                className="hidden md:block md:mx-3 md:w-24 pl-2 cursor-pointer"
                 alt="YT"
-                src={YT_LOGO}
-              />
+                src={ytLogoDark}
+              />) :
+              (<img
+                onClick={() => dispatch(removeSearch())}
+                className="hidden md:block md:h-6 md:mx-2 md:w-32 cursor-pointer"
+                alt="YT"
+                src={ytLogoLight}
+              />)}
             </Link>
           </div>
           <div ref={wrapperRef} className="col-span-10 px-10 relative">
             <div className="flex w-full md:w-2/4">
               <div className="relative w-full">
                 <input
-                  className="w-full border border-gray-400 p-2 pr-10 rounded-l-full bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600"
+                  placeholder="Search"
+                  className="w-full border hover:border-blue-600 p-2 pr-10 rounded-l-full bg-white text-black dark:bg-gray-900 dark:text-white dark:border-gray-600 "
                   type="text"
                   ref={searchInput}
                   value={searchQuery}
@@ -144,11 +159,11 @@ const Head = () => {
                 }
                 className="border border-gray-400 px-4 rounded-r-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white"
               >
-                🔍
+                <CiSearch/>
               </button>
             </div>
 
-            <div className="absolute bg-white py-0 pl-5 w-[29rem] rounded shadow-lg  border-gray-100 dark:bg-gray-800 dark:text-white dark:border-gray-600">
+            <div className="absolute bg-white py-0 pl-5 w-[26rem] rounded shadow-lg  border-gray-100 dark:bg-slate-900 dark:text-white dark:border-gray-900">
               <ul>
                 {showSuggestions &&
                   suggestions?.length > 0 &&
@@ -170,16 +185,15 @@ const Head = () => {
           <div className="col-span-1">
             <button
               onClick={() => dispatch(toggleTheme())}
-              className="px-3 py-1 border rounded dark:border-white border-gray-800 "
+              className="px-3 py-1  rounded dark:border-white border-gray-800 "
             >
-              {darkMode ? "🌞" : "🌙"}
+              {darkMode ? <MdOutlineLightMode size={30}/> : <MdDarkMode size={30}/>}
             </button>
           </div>
           <div className="hidden md:block md:col-span-1">
             <img alt="usericon" className="h-8" src={ACC_LOGO} />
           </div>
         </div>
-      </div>
     </>
   );
 };

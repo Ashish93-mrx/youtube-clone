@@ -47,7 +47,7 @@ const Sidebar = () => {
         onClick={handleOverlayClick}
       ></div>
 
-      <div className="fixed top-16 left-0 w-60 h-full shadow-lg z-50 p-4 overflow-y-auto text-sm bg-white text-black dark:bg-gray-900 dark:text-white">
+      <div className="fixed top-16 left-0 w-60 h-full shadow-lg z-50 p-4 -my-2 overflow-y-auto text-sm bg-white text-black dark:bg-neutral-950 dark:text-white">
         <ul className="border-b pb-4">
           {menuItems.map((item) => (
             <li

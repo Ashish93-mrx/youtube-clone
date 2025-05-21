@@ -134,11 +134,11 @@ const VideoContainer = () => {
   return (
     <div>
       {selector.length == 0 && (
-        <div className="relative w-full py-3 bg-white text-black dark:bg-gray-900 dark:text-white overflow-hidden">
+        <div className="relative w-full py-3 bg-white text-black dark:bg-neutral-950 dark:text-white overflow-hidden">
           {canScrollLeft && (
             <button
               onClick={() => scroll("left")}
-              className="absolute left-0 top-0 bottom-0 z-20 w-10 bg-white bg-opacity-80 hover:bg-opacity-100 dark:bg-gray-900 flex items-center justify-center"
+              className="absolute left-0 top-0 bottom-0 z-20 w-10 bg-white bg-opacity-80 hover:bg-opacity-100 dark:bg-neutral-950 flex items-center justify-center"
             >
               <FaChevronLeft className="text-xl" />
             </button>
@@ -153,6 +153,7 @@ const VideoContainer = () => {
               <Button
                 key={i.id}
                 name={i.snippet.title}
+                isCategoryId={i.id==categoryId}
                 onClick={() => handleCategorySelect(i.id)}
               />
             ))}
@@ -161,7 +162,7 @@ const VideoContainer = () => {
           {canScrollRight && (
             <button
               onClick={() => scroll("right")}
-              className="absolute right-0 top-0 bottom-0 z-20 w-10 bg-white bg-opacity-80 hover:bg-opacity-100 dark:bg-gray-900 flex items-center justify-center"
+              className="absolute right-0 top-0 bottom-0 z-20 w-10 bg-white bg-opacity-80 hover:bg-opacity-100 dark:bg-neutral-950 flex items-center justify-center"
             >
               <FaChevronRight className="text-xl" />
             </button>
@@ -170,23 +171,23 @@ const VideoContainer = () => {
       )}
 
       {error && (
-        <div className="h-screen dark:bg-gray-900 text-center text-red-600 font-semibold">
+        <div className="h-screen dark:bg-neutral-950 text-center text-red-600 font-semibold">
           {error}
         </div>
       )}
 
       {!error && videos.length < 1 ? (
-        <div className="flex flex-wrap justify-center bg-white dark:bg-gray-900 text-black dark:text-white">
+        <div className="flex flex-wrap justify-center bg-white dark:bg-neutral-950 text-black dark:text-white">
           {Array(12)
             .fill(null)
             .map((_, idx) => (
-              <div key={idx} className="p-2 m-2">
+              <div key={idx}>
                 <ShimmerCard />
               </div>
             ))}
         </div>
       ) : (
-        <div className="flex flex-wrap justify-center bg-white dark:bg-gray-900 text-black dark:text-white">
+        <div className="flex flex-wrap justify-center bg-white dark:bg-neutral-950 text-black dark:text-white">
           {videos.map((video) => {
             const id =
               typeof video.id === "object" ? video.id.videoId : video.id;
@@ -206,7 +207,7 @@ const VideoContainer = () => {
       )}
 
       {loadingMore && (
-        <div className="flex flex-wrap justify-center bg-white dark:bg-gray-900 text-black dark:text-white">
+        <div className="flex flex-wrap justify-center bg-white dark:bg-neutral-950 text-black dark:text-white p-">
           {Array(8)
             .fill(null)
             .map((_, idx) => (

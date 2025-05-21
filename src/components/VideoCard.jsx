@@ -12,9 +12,9 @@ const VideoCard = ({ info }) => {
           {title}
         </li>
       </ul>
-      <span className="flex flex-row justify-between">
+      <span className="flex flex-row justify-between dark:text-gray-300 text-black">
         <div>{channelTitle}</div>
-        <div className="font-thin text-sm">{(statistics?.viewCount) ? convertLargeNums(statistics?.viewCount)+" views" : ''}</div>
+        <div className="font-semibold text-sm">{(statistics?.viewCount) ? convertLargeNums(statistics?.viewCount)+" views" : ''}</div>
         </span>
     </div>
   );

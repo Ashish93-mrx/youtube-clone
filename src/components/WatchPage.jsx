@@ -43,7 +43,7 @@ const WatchPage = () => {
   }, [videoId]);
 
   return (
-    <div className="flex flex-col lg:flex-row w-full bg-white text-black dark:bg-gray-900 dark:text-white p-4">
+    <div className="flex flex-col lg:flex-row w-full bg-white text-black dark:bg-neutral-950 dark:text-white p-4">
   <div className="w-full lg:w-2/3 flex flex-col gap-4">
     <div className="md:pl-20">
       <iframe
@@ -68,30 +68,31 @@ const WatchPage = () => {
 
         </span>
         <span className="flex items-center pt-2 md:p-0 gap-2">
-          <span className="flex flex-row bg-gray-500 h-8 rounded-2xl items-center justify-around">
+          <span className="flex flex-row dark:bg-neutral-800 bg-gray-200 h-8 rounded-2xl items-center justify-around">
             <button className="px-3 flex"><AiOutlineLike size={20}/>{convertLargeNums(videoInfo?.statistics?.likeCount)}</button> 
             |
             <button className="px-3 flex">
             <AiOutlineDislike size={20}/>
             </button>
           </span>
-          <div className="bg-gray-500 h-8 rounded-2xl flex items-center px-3">
+          <div className="dark:bg-neutral-800 bg-gray-200 h-8 rounded-2xl flex items-center px-3">
             <IoIosShareAlt/>share
           </div>
-          <div className="bg-gray-500 h-8 rounded-2xl flex items-center px-6">
+          <div className="dark:bg-neutral-800 bg-gray-200 h-8 rounded-2xl flex items-center px-6">
             <HiDownload/>Download
           </div>
         </span>
         </span>
       </div>
 
-      <div className="dark:bg-gray-700 bg-gray-300 rounded-lg mt-2 p-2">
+      <div className="dark:dark:bg-neutral-800 bg-gray-200  rounded-lg mt-2 p-2">
         <span>
-          <h1 className="font-bold">{convertLargeNums(videoInfo?.statistics?.viewCount)+" "}{videoInfo?.snippet?.publishedAt.substring(0,10)}</h1>
+          <h1 className="font-bold">{videoInfo?.statistics?.viewCount &&
+    `${convertLargeNums(videoInfo?.statistics?.viewCount)} views  `}{videoInfo?.snippet?.publishedAt.substring(0,10).split('-').reverse().join('-')}</h1>
           <p className={`text-sm whitespace-pre-line ${expanded ? "" : "line-clamp-3"}`}>{videoInfo?.snippet?.description}</p>
           {videoInfo?.snippet?.description?.length>150 &&
-           <button onClick={()=>setExpanded(!expanded)}>
-            {  expanded ? 'see less' : 'see more'}
+           <button onClick={()=>setExpanded(!expanded)} className="font-bold">
+            {  expanded ? 'Show less' : '...more'}
           </button>}
         </span>
       </div>

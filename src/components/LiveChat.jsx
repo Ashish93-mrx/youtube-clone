@@ -29,7 +29,7 @@ const LiveChat = ({ info }) => {
     <div className={`flex flex-row-reverse items-center h-12 w-[400px] border border-gray-500 rounded-t-xl ${showChat ? '' : 'rounded-b-xl'}`}>
         <button className="mr-5 cursor-pointer" onClick={() => setShowChat(!showChat)}>{showChat ? <TfiClose/> : <FaChevronDown/> }</button>
     </div>
-      {showChat && (<><div className="w-[400px] h-[400px] p-2 border-r border-l border-gray-500 bg-slate-100  overflow-y-scroll flex flex-col-reverse text-black dark:bg-gray-900 dark:text-white">
+      {showChat && (<><div className="w-[400px] h-[400px] p-2 border-r border-l border-gray-500 bg-slate-100  overflow-y-scroll flex flex-col-reverse text-black dark:bg-black dark:text-white">
         <div>
           {
             //don't use index as key
@@ -51,7 +51,7 @@ const LiveChat = ({ info }) => {
         <input
           type="text"
           placeholder="Type here..."
-          className="w-3/4 h-9 pl-2 text-black bg-gray-300 dark:bg-gray-700 rounded-2xl dark:text-white"
+          className="w-3/4 h-9 pl-2 text-black bg-gray-300 dark:bg-zinc-800 rounded-2xl dark:text-white"
           value={liveMessage}
           onChange={(e) => setLiveMessage(e.target.value)}
         />
