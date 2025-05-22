@@ -39,17 +39,17 @@ const Head = () => {
     const timer = setTimeout(() => {
       if (searchQuery.trim() === "") return;
 
+      //update cache
       if (searchCache[searchQuery]) {
-        //update cache
         setSuggestions(searchCache[searchQuery]);
+        dispatch(
+          cacheResults({
+            [searchQuery]: suggestions,
+          })
+        );
       } else {
         getSearchSuggestions();
       }
-      dispatch(
-        cacheResults({
-          [searchQuery]: suggestions,
-        })
-      );
 
       setShowSuggestions(true);
     }, 200);
@@ -87,11 +87,11 @@ const Head = () => {
       // const suggestions = await json[1].map((item) => item[0]);
       // setSuggestions(suggestions);
       //update cache
-      // dispatch(
-      //   cacheResults({
-      //     [searchQuery]: suggestions,
-      //   })
-      // );
+      dispatch(
+        cacheResults({
+          [searchQuery]: data?.suggestions,
+        })
+      );
       // Use the suggestions as needed
     } catch (error) {
       console.error("Error fetching suggestions:", error);
