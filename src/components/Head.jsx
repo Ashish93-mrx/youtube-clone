@@ -83,9 +83,9 @@ useEffect(() => {
       // const text = await response;
       // const data = await text.json();
       // setSuggestions(data?.suggestions);
-            // const text = await response.text();
+            const text = await response.text();
       const json = await JSON.parse(
-        response.substring(response.indexOf("["), response.lastIndexOf("]") + 1)
+        text.substring(text.indexOf("["), text.lastIndexOf("]") + 1)
       );
       const suggestions = await json[1].map((item) => item[0]);
       setSuggestions(suggestions);
