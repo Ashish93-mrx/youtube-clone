@@ -19,12 +19,12 @@ const Live = () => {
 
   if (trends?.length < 1) {
     return (
-      <div className="flex flex-wrap justify-center bg-white text-black dark:bg-gray-900 dark:text-white">
+      <div className="flex flex-wrap justify-center bg-white text-black dark:bg-neutral-950 dark:text-white">
         {Array(12)
           .fill(null)
           .map((_, idx) => (
-            <span className="p-2 m-2">
-              <ShimmerCard key={idx} />
+            <span className="p-2 m-2" key={idx}>
+              <ShimmerCard />
             </span>
           ))}
       </div>
@@ -33,7 +33,7 @@ const Live = () => {
 
   return (
     <div>
-      <div className="flex flex-wrap justify-center bg-white text-black dark:bg-gray-900 dark:text-white">
+      <div className="flex flex-wrap justify-center bg-white text-black dark:bg-neutral-950 dark:text-white">
         {trends.map((video) => {
           const id = typeof video.id === "object" ? video.id.videoId : video.id;
 
@@ -41,7 +41,7 @@ const Live = () => {
 
           return (
             <Link to={url} key={id}>
-              <VideoCard info={video} />
+              <VideoCard info={video} key={id} />
             </Link>
           );
         })}

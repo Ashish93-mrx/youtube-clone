@@ -198,7 +198,7 @@ const VideoContainer = () => {
                 }} key={id}
               >
                 <Link to={`/watch?v=${id}`} key={id}>
-                  <VideoCard info={video} />
+                  <VideoCard info={video} key={id}/>
                 </Link>
               </span>
             );
@@ -211,7 +211,7 @@ const VideoContainer = () => {
           {Array(8)
             .fill(null)
             .map((_, idx) => (
-              <ShimmerCard key={idx} />
+              <span key={idx}><ShimmerCard /></span>
             ))}
         </div>
       )}

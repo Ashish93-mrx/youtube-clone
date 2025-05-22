@@ -39,7 +39,7 @@ const LiveChat = ({ info }) => {
           }
         </div>
       </div>
-      <span className="flex items-center border w-[400px] border-gray-500 justify-around h-12 rounded-b-xl pl-1"><MdAccountCircle size={30} paddin/>
+      <span className="flex items-center border w-[400px] border-gray-500 justify-around h-12 rounded-b-xl pl-1"><MdAccountCircle size={30} />
       <form
         onSubmit={(e) => {
           e.preventDefault();

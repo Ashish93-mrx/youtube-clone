@@ -69,10 +69,10 @@ useEffect(() => {
       const response = await fetch(YOUTUBE_SEARCH_API + `&q=${query}`);
       const result = await response.json();
       dispatch(addSearchRes(result.items));
-      setShowSuggestions(false);
     } catch (error) {
       console.error("Error fetching suggestions:", error);
     }
+    setShowSuggestions(false);
   };
 
   const getSearchSuggestions = async () => {
@@ -140,7 +140,7 @@ useEffect(() => {
                   ref={searchInput}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  onFocus={() => setShowSuggestions(true)}
+                  // onFocus={() => setShowSuggestions(true)}
                   onKeyDown={(e) =>
                     e.target.value.length !== 0 &&
                     e.key === "Enter" &&
