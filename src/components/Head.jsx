@@ -29,36 +29,39 @@ const Head = () => {
   const darkMode = useSelector((state) => state.theme.darkMode);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
-        setShowSuggestions(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    const timer = setTimeout(() => {
-      if (searchQuery.trim() === "") return;
+useEffect(() => {
+  const handleClickOutside = (e) => {
+    if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
+      setShowSuggestions(false);
+    }
+  };
+  document.addEventListener("mousedown", handleClickOutside);
 
-      //update cache
-      if (searchCache[searchQuery]) {
-        setSuggestions(searchCache[searchQuery]);
-        dispatch(
-          cacheResults({
-            [searchQuery]: suggestions,
-          })
-        );
-      } else {
-        getSearchSuggestions();
-      }
+  const timer = setTimeout(() => {
+    if (searchQuery.trim() === "") return;
 
-      setShowSuggestions(true);
-    }, 200);
+    // If in cache
+    if (searchCache[searchQuery]) {
+      setSuggestions(searchCache[searchQuery]);
 
-    return () => {
-      clearTimeout(timer);
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [searchQuery]);
+      dispatch(
+        cacheResults({
+          [searchQuery]: searchCache[searchQuery],
+        })
+      );
+    } else {
+      getSearchSuggestions();
+    }
+
+    setShowSuggestions(true);
+  }, 200);
+
+  return () => {
+    clearTimeout(timer);
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, [searchQuery, searchCache]);
+
 
   const getSearchResult = async (query) => {
     try {
@@ -77,19 +80,19 @@ const Head = () => {
       const response = await fetch(
         YOUTUBE_SEARCH_SUGGESTION_API + encodeURIComponent(searchQuery)
       );
-      const text = await response;
-      const data = await text.json();
-      setSuggestions(data?.suggestions);
-      //       const text = await response.text();
-      // const json = await JSON.parse(
-      //   text.substring(text.indexOf("["), text.lastIndexOf("]") + 1)
-      // );
-      // const suggestions = await json[1].map((item) => item[0]);
-      // setSuggestions(suggestions);
+      // const text = await response;
+      // const data = await text.json();
+      // setSuggestions(data?.suggestions);
+            const text = await response.text();
+      const json = await JSON.parse(
+        text.substring(text.indexOf("["), text.lastIndexOf("]") + 1)
+      );
+      const suggestions = await json[1].map((item) => item[0]);
+      setSuggestions(suggestions);
       //update cache
       dispatch(
         cacheResults({
-          [searchQuery]: data?.suggestions,
+          [searchQuery]: suggestions,
         })
       );
       // Use the suggestions as needed
