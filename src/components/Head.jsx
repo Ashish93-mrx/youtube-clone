@@ -80,15 +80,15 @@ useEffect(() => {
       const response = await fetch(
         YOUTUBE_SEARCH_SUGGESTION_API + encodeURIComponent(searchQuery)
       );
-      // const text = await response;
-      // const data = await text.json();
-      // setSuggestions(data?.suggestions);
-            const text = await response.text();
-      const json = await JSON.parse(
-        text.substring(text.indexOf("["), text.lastIndexOf("]") + 1)
-      );
-      const suggestions = await json[1].map((item) => item[0]);
-      setSuggestions(suggestions);
+      const text = await response;
+      const data = await text.json();
+      setSuggestions(data?.suggestions);
+      //       const text = await response.text();
+      // const json = await JSON.parse(
+      //   text.substring(text.indexOf("["), text.lastIndexOf("]") + 1)
+      // );
+      // const suggestions = await json[1].map((item) => item[0]);
+      setSuggestions(data?.suggestions);
       //update cache
       dispatch(
         cacheResults({
