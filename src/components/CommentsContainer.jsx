@@ -1,101 +1,141 @@
-import React from "react";
+import React, { useState } from "react";
 
-const commentsData = [
-  {
-    name: "nested comments test",
-    text: "hi",
-    replies: [
-      {
-        name: "yogi",
-        text: "hi",
-        replies: [],
-      },
-      {
-        name: "yogi",
-        text: "nested comments ",
-        replies: [],
-      },
-    ],
-  },
-  {
-    name: "yogi",
-    text: "nested comments ",
-    replies: [],
-  },
-  {
-    name: "yogi",
-    text: "hello",
-    replies: [],
-  },
-  {
-    name: "yogi",
-    text: "hello",
-    replies: [
-      {
-        name: "yogi",
-        text: "nested comments ",
-        replies: [
-          {
-            name: "yogi",
-            text: "hello",
-            replies: [],
-          },
-          {
-            name: "yogi",
-            text: "hello",
-            replies: [],
-          },
-        ],
-      },
-    ],
-  },
-  {
-    name: "yogi",
-    text: "hello",
-    replies: [],
-  },
-  {
-    name: "yogi",
-    text: "hello",
-    replies: [],
-  },
-];
+// Single comment component with reply button
+const Comment = ({ data, onReply }) => {
+  const { name, text } = data;
 
-const Comment = ({ data }) => {
-  const { name, text, replies } = data;
   return (
-    <div className="flex shadow-sm bg-gray-100 p-2 rounded-lg text-black dark:bg-gray-900 dark:text-white">
+    <div className="flex bg-gray-100 dark:bg-gray-900 text-black dark:text-white p-2 rounded-lg shadow-sm">
       <img
-        alt="usericon"
+        alt="user"
         className="w-8 h-8"
-        src="https://th.bing.com/th/id/R.c3631c652abe1185b1874da24af0b7c7?rik=XBP%2fc%2fsPy7r3HQ&riu=http%3a%2f%2fpluspng.com%2fimg-png%2fpng-user-icon-circled-user-icon-2240.png&ehk=z4ciEVsNoCZtWiFvQQ0k4C3KTQ6wt%2biSysxPKZHGrCc%3d&risl=&pid=ImgRaw&r=0"
+        src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
       />
       <div className="px-3">
         <p className="font-bold">{name}</p>
         <p>{text}</p>
+        <button
+          className="text-blue-500 text-sm mt-1"
+          onClick={onReply}
+        >
+          Reply
+        </button>
       </div>
     </div>
   );
 };
 
-const CommentList = ({ comments }) => {
-  return comments.map((i, index) => (
+// Reusable comment form
+const CommentForm = ({ onSubmit, onCancel }) => {
+  const [input, setInput] = useState("");
+
+  const handleSubmit = () => {
+    if (input.trim() === "") return;
+    onSubmit(input);
+    setInput("");
+  };
+
+  return (
+    <div className="flex flex-col mt-2 mb-4">
+      <textarea
+        className="p-2 rounded border border-gray-300 dark:bg-gray-800 dark:text-white"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        onKeyDown={(e) => (e.key == 'Enter') && handleSubmit()}
+        placeholder="Add a comment..."
+      />
+      <div className="mt-1 flex gap-2">
+        <button
+          onClick={handleSubmit}
+          className="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          Comment
+        </button>
+        {onCancel && (
+          <button
+            onClick={onCancel}
+            className="px-3 py-1 text-sm bg-gray-300 dark:bg-gray-600 rounded hover:bg-gray-400 dark:hover:bg-gray-500"
+          >
+            Cancel
+          </button>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// Recursively render list
+const CommentList = ({ comments, addReply }) => {
+  return comments.map((comment, index) => (
     <div key={index}>
-      <Comment data={i} />
-      <div className="pl-5 border-l-black ml-5">
-        <CommentList comments={i.replies} />
+      <Comment
+        data={comment}
+        onReply={() => addReply(comment)}
+      />
+      {/* Nested replies */}
+      <div className="ml-6 border-l pl-4 mt-2">
+        {comment.showReplyForm && (
+          <CommentForm
+            onSubmit={(text) => addReply(comment, text)}
+            onCancel={() => addReply(comment, null)}
+          />
+        )}
+        <CommentList
+          comments={comment.replies}
+          addReply={addReply}
+        />
       </div>
     </div>
   ));
 };
 
 const CommentsContainer = () => {
+  const [comments, setComments] = useState([]);
+
+  const addTopLevelComment = (text) => {
+    setComments([
+      ...comments,
+      {
+        name: "You",
+        text,
+        replies: [],
+        showReplyForm: false,
+      },
+    ]);
+  };
+
+  const addReply = (targetComment, replyText = "") => {
+    const updateComments = (commentsList) =>
+      commentsList.map((comment) => {
+        if (comment === targetComment) {
+          if (replyText === "") {
+            return { ...comment, showReplyForm: !comment.showReplyForm };
+          } else {
+            return {
+              ...comment,
+              replies: [
+                ...comment.replies,
+                { name: "You", text: replyText, replies: [], showReplyForm: false },
+              ],
+              showReplyForm: false,
+            };
+          }
+        }
+
+        return {
+          ...comment,
+          replies: updateComments(comment.replies),
+        };
+      });
+
+    setComments(updateComments(comments));
+  };
+
   return (
-    <div className="md:block hidden">
-      <div className="m-5 md:pl-20">
-        <h1 className="text-2xl font-bold">Comments</h1>
-        <CommentList comments={commentsData} />
-      </div>
+    <div className="md:block hidden m-5 md:pl-20">
+      <h1 className="text-2xl font-bold text-black dark:text-white mb-4">Comments</h1>
+      <CommentForm onSubmit={addTopLevelComment} />
+      <CommentList comments={comments} addReply={addReply} />
     </div>
   );
 };

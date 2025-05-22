@@ -25,7 +25,7 @@ const Head = () => {
   const wrapperRef = useRef(null);
   const searchInput = useRef(null);
 
-  const searchCache = useSelector((state) => state.search);
+  const searchCache = useSelector((state) => state.search.cache);
   const darkMode = useSelector((state) => state.theme.darkMode);
   const dispatch = useDispatch();
 
@@ -40,10 +40,16 @@ const Head = () => {
       if (searchQuery.trim() === "") return;
 
       if (searchCache[searchQuery]) {
+        //update cache
         setSuggestions(searchCache[searchQuery]);
       } else {
         getSearchSuggestions();
       }
+      dispatch(
+        cacheResults({
+          [searchQuery]: suggestions,
+        })
+      );
 
       setShowSuggestions(true);
     }, 200);
@@ -81,11 +87,11 @@ const Head = () => {
       // const suggestions = await json[1].map((item) => item[0]);
       // setSuggestions(suggestions);
       //update cache
-      dispatch(
-        cacheResults({
-          [searchQuery]: data?.suggestions,
-        })
-      );
+      // dispatch(
+      //   cacheResults({
+      //     [searchQuery]: suggestions,
+      //   })
+      // );
       // Use the suggestions as needed
     } catch (error) {
       console.error("Error fetching suggestions:", error);
@@ -109,7 +115,7 @@ const Head = () => {
             <Link to="/">
               {(darkMode) ? (<img
                 onClick={() => dispatch(removeSearch())}
-                className="hidden md:block md:mx-3 md:w-24 pl-2 cursor-pointer"
+                className="hidden md:block md:mx-6 md:w-24 pl-2 cursor-pointer"
                 alt="YT"
                 src={ytLogoDark}
               />) :
@@ -126,7 +132,7 @@ const Head = () => {
               <div className="relative w-full">
                 <input
                   placeholder="Search"
-                  className="w-full border hover:border-blue-600 p-2 pr-10 rounded-l-full bg-white text-black dark:bg-gray-900 dark:text-white dark:border-gray-600 "
+                  className="w-full border hover:border-blue-600 p-2 pr-10 rounded-l-full bg-white text-black dark:bg-gray-900 dark:text-white dark:border-gray-600"
                   type="text"
                   ref={searchInput}
                   value={searchQuery}
@@ -163,12 +169,13 @@ const Head = () => {
               </button>
             </div>
 
-            <div className="absolute bg-white py-0 pl-5 w-[26rem] rounded shadow-lg  border-gray-100 dark:bg-slate-900 dark:text-white dark:border-gray-900">
-              <ul>
-                {showSuggestions &&
+            <div className="absolute">
+            <div className="bg-white md:w-[27rem] rounded-2xl shadow-2xl border-gray-100 dark:bg-slate-900 dark:text-white dark:border-gray-900">
+            {showSuggestions &&
                   suggestions?.length > 0 &&
-                  suggestions.map((item, idx) => (
-                    <li
+              (<ul className="py-4">
+                  {suggestions.map((item, idx) => 
+                  (<li
                       onClick={() => {
                         getSearchResult(item);
                         searchInput, (current.value = item);
@@ -176,22 +183,25 @@ const Head = () => {
                       key={idx}
                       className="py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
                     >
-                      <Link>{item}</Link>
+                      <Link><span className="flex items-center gap-2 pl-2"><CiSearch size={15}/>{item}</span></Link>
                     </li>
-                  ))}
-              </ul>
+                    )
+                    )}
+              </ul>)
+                  }
+            </div>
             </div>
           </div>
-          <div className="col-span-1">
+          <div className="flex justify-around items-center">
             <button
               onClick={() => dispatch(toggleTheme())}
-              className="px-3 py-1  rounded dark:border-white border-gray-800 "
+              className="rounded dark:border-white border-gray-800 "
             >
               {darkMode ? <MdOutlineLightMode size={30}/> : <MdDarkMode size={30}/>}
             </button>
-          </div>
-          <div className="hidden md:block md:col-span-1">
-            <img alt="usericon" className="h-8" src={ACC_LOGO} />
+          {/* </div> */}
+          {/* <div className="hidden md:block md:col-span-1"> */}
+            <img alt="usericon" className="h-8 hidden md:block" src={ACC_LOGO} />
           </div>
         </div>
     </>
