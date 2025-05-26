@@ -3,6 +3,7 @@ import Sidebar from "./Sidebar";
 import { Outlet } from "react-router";
 import Head from "../components/Head";
 import { useSelector } from "react-redux";
+import ScrollToTop from "./ScrollToTop";
 
 const Body = () => {
   const darkMode = useSelector((state) => state.theme.darkMode);
@@ -18,6 +19,7 @@ const Body = () => {
   return (
     <>
       <Head />
+      <ScrollToTop />
       <div className="relative">
         <Sidebar />
         <div className="ml-0">
