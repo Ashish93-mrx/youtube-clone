@@ -1,4 +1,5 @@
-export const GOOGLE_API_KEY = "AIzaSyCQFDaM_j77RtTB26RGIE4YofQN_3SSqfI";
+// export const GOOGLE_API_KEY = "AIzaSyCQFDaM_j77RtTB26RGIE4YofQN_3SSqfI";
+export const GOOGLE_API_KEY = "AIzaSyDYNgKsjEYy3La_Lvgaao9JWccwkylmlII";
 
 export const YOUTUBE_VIDEO_API =
   "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=50&regionCode=IN&key=" +
@@ -7,6 +8,8 @@ export const YOUTUBE_VIDEO_API =
 export const YOUTUBE_LIVE_VIDEO_API =
   "https://www.googleapis.com/youtube/v3/search?part=snippet&eventType=live&type=video&maxResults=50&regionCode=IN&key=" +
   GOOGLE_API_KEY;
+
+export const YOUTUBE_WATCHPAGE_SUGGEST = "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&maxResults=40&regionCode=IN&videoCategoryId=1&key="+GOOGLE_API_KEY;
 
 export const YOUTUBE_SEARCH_SUGGESTION_API =
   "https://ash-yt-backend-vaz5.vercel.app/suggest?q=";
