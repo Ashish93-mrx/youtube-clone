@@ -6,7 +6,7 @@ const ResultVideoCard = ({ video }) => {
   return (
     <div
       key={video?.id?.videoId}
-      className="flex flex-col md:flex-row gap-6 max-w-7xl w-full ml-32 text-black dark:text-white"
+      className="flex flex-col md:flex-row md:gap-6 max-w-7xl w-full md:ml-32 text-black dark:text-white"
     >
       <Link
         to={`/watch?v=${video?.id?.videoId}`}
@@ -27,7 +27,7 @@ const ResultVideoCard = ({ video }) => {
           <h2 className="text-xl font-semibold line-clamp-2 hover:underline">
             {video?.snippet?.title}
           </h2>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+          <p className="text-sm text-gray-600 dark:text-gray-400 md:mt-2">
             {video?.snippet?.channelTitle}
           </p>
           <p className="text-sm text-gray-500 dark:text-gray-500 mb-2">

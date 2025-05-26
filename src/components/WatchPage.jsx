@@ -137,7 +137,7 @@ const WatchPage = () => {
         <CommentsContainer videoId={videoId} />
       </div>
       <div className="flex flex-col items-center">
-        <div className="w-full mt-6 lg:mt-0 lg:pl-6">
+        <div className="md:w-full md:mt-6 lg:mt-0 lg:pl-6 mt-2 p-2">
           {<LiveChat messages={chatMessages} />}
         </div>
         <div className="lg:pl-6 mt-6 ">
