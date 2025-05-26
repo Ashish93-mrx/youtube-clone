@@ -7,6 +7,7 @@ import WatcPage from "./components/WatchPage";
 import Demo from "./components/Demo";
 import Demo2 from "./components/Demo2";
 import Trending from "./components/Live";
+import ResultPage from "./components/ResultPage";
 
 const appRouter = createBrowserRouter([
   {
@@ -22,8 +23,12 @@ const appRouter = createBrowserRouter([
         element: <MainContainer />,
       },
       {
-        path: "watch",
+        path: "/watch",
         element: <WatcPage />,
+      },
+      {
+        path: "/results",
+        element: <ResultPage/>,
       },
       {
         path: "/demo",

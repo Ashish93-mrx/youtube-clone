@@ -5,7 +5,7 @@ import { Link } from "react-router";
 import { useSelector } from "react-redux";
 import Button from "./Button";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import ShimmerCard from "./ShimmerCard";
+import { ShimmerCard } from "./ShimmerEffects";
 import { getVideoInfo } from "../utils/appSlice";
 import { useDispatch } from "react-redux";
 
@@ -143,7 +143,6 @@ const VideoContainer = () => {
               <FaChevronLeft className="text-xl" />
             </button>
           )}
-
           <div
             ref={scrollRef}
             className="flex gap-3 overflow-x-auto px-12 scrollbar-none scroll-smooth"
@@ -153,12 +152,11 @@ const VideoContainer = () => {
               <Button
                 key={i.id}
                 name={i.snippet.title}
-                isCategoryId={i.id==categoryId}
+                isCategoryId={i.id == categoryId}
                 onClick={() => handleCategorySelect(i.id)}
               />
             ))}
           </div>
-
           {canScrollRight && (
             <button
               onClick={() => scroll("right")}
@@ -169,13 +167,11 @@ const VideoContainer = () => {
           )}
         </div>
       )}
-
       {error && (
         <div className="h-screen dark:bg-neutral-950 text-center text-red-600 font-semibold">
           {error}
         </div>
       )}
-
       {!error && videos.length < 1 ? (
         <div className="flex flex-wrap justify-center bg-white dark:bg-neutral-950 text-black dark:text-white">
           {Array(12)
@@ -195,23 +191,25 @@ const VideoContainer = () => {
               <span
                 onClick={() => {
                   videoInfo(getVideoInfo(video));
-                }} key={id}
+                }}
+                key={id}
               >
                 <Link to={`/watch?v=${id}`} key={id}>
-                  <VideoCard info={video} key={id}/>
+                  <VideoCard info={video} key={id} />
                 </Link>
               </span>
             );
           })}
         </div>
       )}
-
       {loadingMore && (
         <div className="flex flex-wrap justify-center bg-white dark:bg-neutral-950 text-black dark:text-white p-">
           {Array(8)
             .fill(null)
             .map((_, idx) => (
-              <span key={idx}><ShimmerCard /></span>
+              <span key={idx}>
+                <ShimmerCard />
+              </span>
             ))}
         </div>
       )}

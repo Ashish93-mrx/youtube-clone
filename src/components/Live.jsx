@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { YOUTUBE_LIVE_VIDEO_API } from "../utils/constants";
 import { Link } from "react-router";
 import VideoCard from "./VideoCard";
-import ShimmerCard from "./ShimmerCard";
+import {ShimmerCard} from "./ShimmerEffects";
+
 
 const Live = () => {
   const [trends, setTrends] = useState([]);
