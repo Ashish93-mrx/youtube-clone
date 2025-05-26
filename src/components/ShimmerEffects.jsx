@@ -10,14 +10,15 @@ export const ShimmerCard = () => {
 
 export const ResultShimmer = () => {
   return (
-    <div className="flex flex-col md:flex-row gap-6 max-w-7xl w-full ml-32 animate-pulse mt-8 ">
-      <div className="w-full md:w-[500px] h-[280px] bg-gray-300 dark:bg-gray-700 rounded-xl" />
-      <div className="flex flex-col justify-start w-full gap-3">
-        <div className="h-6 bg-gray-300 dark:bg-gray-700 rounded w-3/4" />
-        <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/3" />
-        <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-1/2" />
-        <div className="h-5 bg-gray-300 dark:bg-gray-700 rounded w-full" />
-        <div className="h-5 bg-gray-300 dark:bg-gray-700 rounded w-5/6" />
+    <div className="flex flex-col md:flex-row gap-4 md:gap-6 max-w-7xl w-full mx-auto animate-pulse p-4">
+      <div className="w-full h-52 md:w-[500px] md:h-[280px] bg-gray-300 dark:bg-gray-700 rounded-xl" />
+
+      <div className="flex flex-col justify-start w-full gap-3 mt-4 md:mt-0">
+        <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4" />
+        <div className="h-3 bg-gray-300 dark:bg-gray-700 rounded w-1/3" />
+        <div className="h-3 bg-gray-300 dark:bg-gray-700 rounded w-1/2" />
+        <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-full" />
+        <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-5/6" />
       </div>
     </div>
   );
