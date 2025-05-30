@@ -1,13 +1,14 @@
 import Body from "./components/Body";
 import { Provider } from "react-redux";
 import store from "./utils/store";
-import { createBrowserRouter, RouterProvider } from "react-router";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainContainer from "./components/MainContainer";
 import WatcPage from "./components/WatchPage";
-import Demo from "./components/Demo";
-import Demo2 from "./components/Demo2";
-import Trending from "./components/Live";
-import ResultPage from "./components/ResultPage";
+import { Suspense, lazy } from "react";
+// import {ShimmerLoader} from "./components/ShimmerEffects";
+
+const ResultPage = lazy(() => import("./components/ResultPage"));
+const Trending = lazy(() => import("./components/Live"));
 
 const appRouter = createBrowserRouter([
   {
@@ -28,20 +29,17 @@ const appRouter = createBrowserRouter([
       },
       {
         path: "/results",
-        element: <ResultPage/>,
-      },
-      {
-        path: "/demo",
         element: (
-          <>
-            <Demo2 />
-            <Demo />
-          </>
+          // <Suspense fallback={<ShimmerLoader />}>
+          // </Suspense>
+            <ResultPage />
         ),
       },
       {
         path: "/live",
-        element: <Trending />,
+        element: (
+            <Trending />
+        ),
       },
     ],
   },
@@ -49,11 +47,9 @@ const appRouter = createBrowserRouter([
 
 function App() {
   return (
-    <>
-      <Provider store={store}>
-        <RouterProvider router={appRouter} />
-      </Provider>
-    </>
+    <Provider store={store}>
+      <RouterProvider router={appRouter} />
+    </Provider>
   );
 }
 

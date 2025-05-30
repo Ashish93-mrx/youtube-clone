@@ -1,23 +1,16 @@
 import { useEffect, useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, Link } from "react-router";
 import { toggleMenu } from "../utils/appSlice";
 import { cacheResults } from "../utils/searchSlice";
-import { addSearchRes, removeSearch } from "../utils/resultSlice";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  YOUTUBE_SEARCH_SUGGESTION_API,
-  YOUTUBE_SEARCH_API,
-  ACC_LOGO,
-} from "../utils/constants";
-import { Link } from "react-router";
-
+import { removeSearch } from "../utils/resultSlice";
 import { toggleTheme } from "../utils/themeSlice";
+import { YOUTUBE_SEARCH_SUGGESTION_API, ACC_LOGO } from "../utils/constants";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { current } from "@reduxjs/toolkit";
-import { MdOutlineLightMode,MdDarkMode } from "react-icons/md";
+import { MdOutlineLightMode, MdDarkMode } from "react-icons/md";
 import { CiSearch } from "react-icons/ci";
 import ytLogoLight from "../assets/ytLogo.png";
 import ytLogoDark from "../assets/ytLogo-dark.png";
-import { useNavigate } from "react-router";
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -41,7 +34,6 @@ const Head = () => {
 
     const timer = setTimeout(() => {
       if (searchQuery.trim() === "") return;
-
       // If in cache
       if (searchCache[searchQuery]) {
         setSuggestions(searchCache[searchQuery]);
@@ -54,7 +46,6 @@ const Head = () => {
       } else {
         getSearchSuggestions();
       }
-
       setShowSuggestions(true);
     }, 200);
 
@@ -64,15 +55,7 @@ const Head = () => {
     };
   }, [searchQuery, searchCache]);
 
-  const getSearchResult = async (query) => {
-    // try {
-    //   setSearchQuery(query);
-    //   const response = await fetch(YOUTUBE_SEARCH_API + `&q=${query}`);
-    //   const result = await response.json();
-    //   dispatch(addSearchRes(result.items));
-    // } catch (error) {
-    //   console.error("Error fetching suggestions:", error);
-    // }
+    const getSearchResult = async (query) => {
     setShowSuggestions(false);
   };
 
@@ -81,9 +64,6 @@ const Head = () => {
       const response = await fetch(
         YOUTUBE_SEARCH_SUGGESTION_API + encodeURIComponent(searchQuery)
       );
-      // const text = await response;
-      // const data = await text.json();
-      // setSuggestions(data?.suggestions);
       const text = await response.text();
       const json = await JSON.parse(
         text.substring(text.indexOf("["), text.lastIndexOf("]") + 1)
@@ -102,7 +82,6 @@ const Head = () => {
     }
   };
 
-  // const dispatch = useDispatch();
   const toggleMenuHandle = () => {
     dispatch(toggleMenu());
   };
@@ -144,11 +123,14 @@ const Head = () => {
                 ref={searchInput}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                // onFocus={() => setShowSuggestions(true)}
                 onKeyDown={(e) =>
                   e.target.value.length !== 0 &&
                   e.key === "Enter" &&
-                  navigate(`/results?search_query=${encodeURIComponent(searchQuery.trim())}`)
+                  navigate(
+                    `/results?search_query=${encodeURIComponent(
+                      searchQuery.trim()
+                    )}`
+                  ) && setShowSuggestions(false)
                 }
               />
 
@@ -167,7 +149,12 @@ const Head = () => {
 
             <button
               onClick={() =>
-                searchQuery.trim() !== "" && navigate(`/results?search_query=${encodeURIComponent(searchQuery.trim())}`)
+                searchQuery.trim() !== "" &&
+                navigate(
+                  `/results?search_query=${encodeURIComponent(
+                    searchQuery.trim()
+                  )}`
+                )
               }
               className="border border-gray-400 px-4 rounded-r-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white"
             >
@@ -183,12 +170,10 @@ const Head = () => {
                     <li
                       onClick={() => {
                         getSearchResult(item);
-                        searchInput, (current.value = item);
                       }}
                       key={idx}
                       className="py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
                     >
-                      {/* <Link><span className="flex items-center gap-2 pl-2"><CiSearch size={15}/>{item}</span></Link> */}
                       <Link
                         to={`/results?search_query=${encodeURIComponent(item)}`}
                       >
@@ -206,7 +191,9 @@ const Head = () => {
         </div>
         <div className="flex justify-around items-center">
           <button
-            onClick={() => dispatch(toggleTheme())}
+            onClick={() => {
+              getSearchResult();
+              dispatch(toggleTheme())}}
             className="rounded dark:border-white border-gray-800 "
           >
             {darkMode ? (
@@ -215,8 +202,6 @@ const Head = () => {
               <MdDarkMode size={30} />
             )}
           </button>
-          {/* </div> */}
-          {/* <div className="hidden md:block md:col-span-1"> */}
           <img alt="usericon" className="h-8 hidden md:block" src={ACC_LOGO} />
         </div>
       </div>

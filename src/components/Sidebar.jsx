@@ -15,11 +15,6 @@ const Sidebar = () => {
     dispatch(toggleMenu());
   };
 
-  const getSideBarData = (query) => {
-    const data = fetch(YOUTUBE_SEARCH_API + `&q=${query}`);
-    const response = data.json();
-  };
-
   const menuItems = [
     { name: "Home", icon: <FaHome />, to: "/" },
     { name: "Live", icon: <MdLiveTv />, to: "/live" },

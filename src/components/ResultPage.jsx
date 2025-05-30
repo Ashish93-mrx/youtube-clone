@@ -40,7 +40,7 @@ function ResultPage() {
       <div className="w-full h-full md:px-6 py-4 bg-white dark:bg-neutral-950">
         {Array(4)
           .fill(null)
-          .map(i => <ResultShimmer />
+          .map((i,idx) => <ResultShimmer key={idx} />
           )}
       </div>
     );

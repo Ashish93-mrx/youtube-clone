@@ -24,4 +24,31 @@ export const ResultShimmer = () => {
   );
 };
 
+
+export const ShimmerLoader = () => {
+  return (
+    <div className="flex flex-wrap justify-center bg-white text-black dark:bg-neutral-950 dark:text-white">
+        {Array(12)
+          .fill(null)
+          .map((_, idx) => (
+            <span className="p-2 m-2" key={idx}>
+              <ShimmerCard />
+            </span>
+          ))}
+      </div>
+  );
+}; 
+
+export const ShimmerWatchPage = () => {
+  return (
+        <div className="flex flex-col lg:flex-row w-full bg-white text-black dark:bg-neutral-950 dark:text-white p-4">
+      <div className="w-full lg:w-2/3 flex flex-col gap-4">
+        <div className="md:pl-20">
+
+        </div>
+        </div>
+        </div>
+  )
+}
+
 // export default ShimmerCard;
