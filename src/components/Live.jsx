@@ -3,9 +3,12 @@ import { YOUTUBE_LIVE_VIDEO_API } from "../utils/constants";
 import { Link } from "react-router";
 import VideoCard from "./VideoCard";
 import {ShimmerCard} from "./ShimmerEffects";
+import { getVideoInfo } from "../utils/appSlice";
+import { useDispatch } from "react-redux";
 
 
 const Live = () => {
+  const dispatch = useDispatch();
   const [trends, setTrends] = useState([]);
 
   const fetchLive = async () => {
@@ -41,7 +44,7 @@ const Live = () => {
           const url = `/watch?v=${id}`;
 
           return (
-            <Link to={url} key={id}>
+            <Link to={url} key={id} onClick={() => dispatch(getVideoInfo(video))}>
               <VideoCard info={video} key={id} />
             </Link>
           );
