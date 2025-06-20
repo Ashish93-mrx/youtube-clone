@@ -87,7 +87,7 @@ const Head = () => {
   };
   return (
     <>
-      <div className="grid grid-flow-col p-2 shadow-lg sticky top-0 z-50 bg-white text-black dark:bg-neutral-950 dark:text-white">
+      <div className="grid grid-flow-col p-2 shadow-lg sticky top-0 z-50">
         <div className="flex items-center col-span-1">
           <span
             onClick={() => toggleMenuHandle()}
