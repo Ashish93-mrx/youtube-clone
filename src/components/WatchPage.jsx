@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router"; // note: react-router-dom
 import { closeMenu, getVideoInfo } from "../utils/appSlice";
@@ -9,7 +9,7 @@ import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
 import { IoIosShareAlt } from "react-icons/io";
 import { convertLargeNums } from "../utils/helper";
 import { HiDownload } from "react-icons/hi";
-import { YOUTUBE_WATCHPAGE_SUGGEST } from "../utils/constants";
+import { YOUTUBE_WATCHPAGE_SUGGEST, YOUTUBE_CHANNEL_PROFILE } from "../utils/constants";
 import SuggestedVideoCard from "./SuggestedVideoCard";
 import { Link } from "react-router";
 
@@ -17,6 +17,7 @@ const WatchPage = () => {
   const [searchParams] = useSearchParams();
   const [expanded, setExpanded] = useState(false);
   const videoId = searchParams.get("v");
+  const [profilePicUrl, setProfilePicUrl] = useState(null);
   const dispatch = useDispatch();
   const videoInfo = useSelector((state) => state.app.videoInfo);
   const strvideoInfo = useDispatch();
@@ -31,9 +32,17 @@ const WatchPage = () => {
     setSuggestVid(videos?.items);
   };
 
+  const getProfilePicture = async () => {
+    const response = await fetch(YOUTUBE_CHANNEL_PROFILE+'&id='+videoInfo?.snippet?.channelId);
+    const profileInfo = await response.json();
+    const url = await profileInfo?.items?.[0]?.snippet?.thumbnails?.default?.url;
+    setProfilePicUrl(url);
+  }
+
   useEffect(() => {
     dispatch(closeMenu());
     getWatchPageSuggest();
+    getProfilePicture();
   }, [dispatch]);
 
   useEffect(() => {
@@ -73,7 +82,7 @@ const WatchPage = () => {
             </h1>
             <span className="flex flex-wrap items-center justify-between">
               <span className="flex items-center gap-2">
-                <MdAccountCircle size={35} />
+                <img alt="pfp" src={profilePicUrl} className="h-12 w-12 rounded-full"/>
                 {videoInfo?.snippet?.channelTitle}
                 <p className="h-9 w-24 rounded-3xl text-white bg-black dark:bg-white dark:text-black text-center flex items-center justify-center">
                   Subscribe
