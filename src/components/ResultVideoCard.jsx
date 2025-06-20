@@ -8,37 +8,67 @@ const ResultVideoCard = ({ video }) => {
       key={video?.id?.videoId}
       className="flex flex-col md:flex-row md:gap-6 max-w-7xl w-full md:ml-32 text-black dark:text-white"
     >
-      <Link
-        to={`/watch?v=${video?.id?.videoId}`}
-        className="w-full md:w-[500px] h-[280px] shrink-0 rounded-xl overflow-hidden"
-      >
+      {video?.id?.videoId ? (
+        <Link
+          to={`/watch?v=${video?.id?.videoId}`}
+          className="w-full md:w-[500px] h-[280px] shrink-0 rounded-xl overflow-hidden"
+        >
+          <img
+            src={
+              video?.snippet?.thumbnails?.high?.url ||
+              video?.snippet?.thumbnails?.medium?.url
+            }
+            alt="thumbnail"
+            className="w-full h-full object-cover"
+          />
+        </Link>
+      ) : (
         <img
           src={
             video?.snippet?.thumbnails?.high?.url ||
             video?.snippet?.thumbnails?.medium?.url
           }
           alt="thumbnail"
-          className="w-full h-full object-cover"
+          className="w-52 h-52 rounded-full object-cover"
         />
-      </Link>
+      )}
 
       <div className="flex flex-col justify-start w-full">
-        <Link to={`/watch?v=${video?.id?.videoId}`}>
-          <h2 className="text-xl font-semibold line-clamp-2 hover:underline">
-            {video?.snippet?.title}
-          </h2>
-          <p className="text-sm text-gray-600 dark:text-gray-400 md:mt-2">
-            {video?.snippet?.channelTitle}
-          </p>
-          <p className="text-sm text-gray-500 dark:text-gray-500 mb-2">
-            {statistics?.viewCount
-              ? convertLargeNums(statistics?.viewCount) + " views"
-              : ""}
-          </p>
-          <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-2">
-            {video?.snippet?.description}
-          </p>
-        </Link>
+        {video?.id?.videoId ? (
+          <Link to={`/watch?v=${video?.id?.videoId}`}>
+            <h2 className="text-xl font-semibold line-clamp-2 hover:underline">
+              {video?.snippet?.title}
+            </h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400 md:mt-2">
+              {video?.snippet?.channelTitle}
+            </p>
+            <p className="text-sm text-gray-500 dark:text-gray-500 mb-2">
+              {statistics?.viewCount
+                ? convertLargeNums(statistics?.viewCount) + " views"
+                : ""}
+            </p>
+            <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-2">
+              {video?.snippet?.description}
+            </p>
+          </Link>
+        ) : (
+          <div>
+            <h2 className="text-xl font-semibold line-clamp-2 hover:underline">
+              {video?.snippet?.title}
+            </h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400 md:mt-2">
+              {video?.snippet?.channelTitle}
+            </p>
+            <p className="text-sm text-gray-500 dark:text-gray-500 mb-2">
+              {statistics?.viewCount
+                ? convertLargeNums(statistics?.viewCount) + " views"
+                : ""}
+            </p>
+            <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-2">
+              {video?.snippet?.description}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
