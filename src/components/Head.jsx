@@ -55,7 +55,7 @@ const Head = () => {
     };
   }, [searchQuery, searchCache]);
 
-    const getSearchResult = async (query) => {
+  const getSearchResult = async (query) => {
     setShowSuggestions(false);
   };
 
@@ -130,7 +130,8 @@ const Head = () => {
                     `/results?search_query=${encodeURIComponent(
                       searchQuery.trim()
                     )}`
-                  ) && setShowSuggestions(false)
+                  ) &&
+                  setShowSuggestions(false)
                 }
               />
 
@@ -189,19 +190,23 @@ const Head = () => {
             </div>
           </div>
         </div>
-        <div className="flex justify-around items-center">
+        <div className="flex justify-around items-center gap-4">
           <button
             onClick={() => {
               getSearchResult();
-              dispatch(toggleTheme())}}
-            className="rounded dark:border-white border-gray-800 "
+              dispatch(toggleTheme());
+            }}
+            className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors duration-300 ${
+              darkMode ? "bg-gray-700" : "bg-yellow-400"
+            }`}
           >
-            {darkMode ? (
-              <MdOutlineLightMode size={30} />
-            ) : (
-              <MdDarkMode size={30} />
-            )}
+            <div
+              className={`bg-white w-4 h-4 rounded-full shadow-md transform duration-300 ease-in-out ${
+                darkMode ? "translate-x-6" : "translate-x-0"
+              }`}
+            />
           </button>
+
           <img alt="usericon" className="h-8 hidden md:block" src={ACC_LOGO} />
         </div>
       </div>
