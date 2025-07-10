@@ -118,7 +118,7 @@ const Head = () => {
             <div className="relative w-full">
               <input
                 placeholder="Search"
-                className="w-full border hover:border-blue-600 p-2 pr-10 rounded-l-full bg-white text-black dark:bg-gray-900 dark:text-white dark:border-gray-600"
+                className="w-full border border-gray-300 focus:outline-none focus:border-blue-500 hover:border-blue-500 p-2 pr-10 rounded-l-full bg-white text-black dark:bg-gray-900 dark:text-white dark:border-gray-600 dark:focus:border-blue-500 dark:hover:border-blue-500"
                 type="text"
                 ref={searchInput}
                 value={searchQuery}
