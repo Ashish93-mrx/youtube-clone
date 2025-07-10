@@ -1,34 +1,30 @@
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { convertLargeNums } from "../utils/helper";
+import { getTimeAgo } from "../utils/dateUtils";
 
 const VideoCard = ({ info }) => {
   const { snippet, statistics } = info;
-  const { channelTitle, title, thumbnails } = snippet;
+  const { channelTitle, title, thumbnails, publishedAt } = snippet;
 
   return (
-    <div className="p-2 pb-3 m-2 w-80 shadow">
-      <LazyLoadImage
-        alt="thumbnail"
-        src={thumbnails.medium.url}
-        effect="blur"
-        className="rounded-lg"
-      />
+    <div className="w-80 m-4">
+      <div className="relative">
+        <LazyLoadImage
+          alt="thumbnail"
+          src={thumbnails.medium.url}
+          effect="blur"
+          className="rounded-xl w-full h-auto"
+        />
+      </div>
 
-      <ul>
-        <li className="font-bold py-1 text-ellipsis overflow-hidden whitespace-nowrap">
-          {title}
-        </li>
-      </ul>
-
-      <span className="flex flex-row justify-between dark:text-gray-300 text-black">
-        <div>{channelTitle}</div>
-        <div className="font-semibold text-sm">
-          {statistics?.viewCount
-            ? convertLargeNums(statistics.viewCount) + " views"
-            : ""}
+      <div className="mt-2">
+        <div className="font-semibold text-sm line-clamp-2">{title}</div>
+        <div className="text-sm text-gray-700 dark:text-gray-400">{channelTitle}</div>
+        <div className="text-sm text-gray-700 dark:text-gray-400">
+          {statistics?.viewCount ? convertLargeNums(statistics.viewCount) : ""} views • {getTimeAgo(publishedAt)}
         </div>
-      </span>
+      </div>
     </div>
   );
 };
