@@ -3,7 +3,7 @@ import React, { useState } from "react";
 // Single comment component with reply button
 const Comment = ({ data, onReply }) => {
   const { name, text } = data;
-
+//this comment is form rakesh
   return (
     <div className="flex bg-gray-100 dark:bg-gray-900 text-black dark:text-white p-2 rounded-lg shadow-sm">
       <img
