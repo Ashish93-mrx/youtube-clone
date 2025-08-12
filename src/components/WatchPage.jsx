@@ -9,7 +9,10 @@ import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
 import { IoIosShareAlt } from "react-icons/io";
 import { convertLargeNums } from "../utils/helper";
 import { HiDownload } from "react-icons/hi";
-import { YOUTUBE_WATCHPAGE_SUGGEST, YOUTUBE_CHANNEL_PROFILE } from "../utils/constants";
+import {
+  YOUTUBE_WATCHPAGE_SUGGEST,
+  YOUTUBE_CHANNEL_PROFILE,
+} from "../utils/constants";
 import SuggestedVideoCard from "./SuggestedVideoCard";
 import { Link } from "react-router";
 
@@ -33,11 +36,14 @@ const WatchPage = () => {
   };
 
   const getProfilePicture = async () => {
-    const response = await fetch(YOUTUBE_CHANNEL_PROFILE+'&id='+videoInfo?.snippet?.channelId);
+    const response = await fetch(
+      YOUTUBE_CHANNEL_PROFILE + "&id=" + videoInfo?.snippet?.channelId
+    );
     const profileInfo = await response.json();
-    const url = await profileInfo?.items?.[0]?.snippet?.thumbnails?.default?.url;
+    const url = await profileInfo?.items?.[0]?.snippet?.thumbnails?.default
+      ?.url;
     setProfilePicUrl(url);
-  }
+  };
 
   useEffect(() => {
     dispatch(closeMenu());
@@ -76,36 +82,56 @@ const WatchPage = () => {
             allowFullScreen
           />
 
-          <div className="w-full rounded-lg w-200px h-auto md:w-2700px">
-            <h1 className="font-serif text-2xl py-3">
+          <div className="w-full font-roboto rounded-lg w-200px h-auto md:w-2700px">
+            <h1 className="text-xl font-bold whitespace-normal py-3">
               {videoInfo?.snippet?.title}
             </h1>
             <span className="flex flex-wrap items-center justify-between">
               <span className="flex items-center gap-2">
-                <img alt="pfp" src={profilePicUrl} className="h-12 w-12 rounded-full"/>
+                <img
+                  alt="pfp"
+                  src={profilePicUrl}
+                  className="h-12 w-12 rounded-full"
+                />
                 {videoInfo?.snippet?.channelTitle}
                 <p className="h-9 w-24 rounded-3xl text-white bg-black dark:bg-white dark:text-black text-center flex items-center justify-center">
                   Subscribe
                 </p>
               </span>
               <span className="flex items-center pt-2 md:p-0 gap-2">
-                <span className="flex flex-row dark:bg-neutral-800 bg-gray-200 h-8 rounded-2xl items-center justify-around">
-                  <button className="px-3 flex">
-                    <AiOutlineLike size={20} />
-                    {convertLargeNums(videoInfo?.statistics?.likeCount)}
+                <span className="flex items-center gap-2 bg-gray-200 dark:bg-neutral-800 rounded-full px-3 py-1">
+                  <button className="flex items-center gap-1 px-2 py-1 rounded-full">
+                    <AiOutlineLike
+                      size={18}
+                    />
+                    <span className="text-sm">
+                      {convertLargeNums(videoInfo?.statistics?.likeCount)}
+                    </span>
                   </button>
-                  |
-                  <button className="px-3 flex">
-                    <AiOutlineDislike size={20} />
+                  <span className="w-px h-4" />
+                  <button className="flex items-center gap-1 px-2 py-1 rounded-full">
+                    <AiOutlineDislike
+                      size={18}
+                    />
                   </button>
                 </span>
-                <div className="dark:bg-neutral-800 bg-gray-200 h-8 rounded-2xl flex items-center px-3">
-                  <IoIosShareAlt />
-                  share
+
+                <div className="flex items-center gap-1 dark:bg-neutral-800 bg-gray-200 h-8 rounded-full px-3 py-1 cursor-pointer">
+                  <IoIosShareAlt
+                    size={18}
+                  />
+                  <span className="text-sm">
+                    Share
+                  </span>
                 </div>
-                <div className="dark:bg-neutral-800 bg-gray-200 h-8 rounded-2xl flex items-center px-6">
-                  <HiDownload />
-                  Download
+
+                <div className="flex items-center gap-1 dark:bg-neutral-800 bg-gray-200 h-8 rounded-full px-3 py-1 cursor-pointer">
+                  <HiDownload
+                    size={18}
+                  />
+                  <span className="text-sm">
+                    Download
+                  </span>
                 </div>
               </span>
             </span>
