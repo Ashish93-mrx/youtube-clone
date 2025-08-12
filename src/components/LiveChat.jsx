@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ChatMessage from "./ChatMessage";
 import { useDispatch, useSelector } from "react-redux";
-import { addMessage } from "../utils/chatSlice";
+import { addMessage, resetMessage } from "../utils/chatSlice";
 import { generateRandomName, makeRandomMessage } from "../utils/helper";
 import { TfiClose } from "react-icons/tfi";
 import { AiOutlineSend } from "react-icons/ai";
@@ -14,6 +14,7 @@ const LiveChat = ({ info }) => {
   const dispatch = useDispatch();
   const selector = useSelector((store) => store.chat.message);
   useEffect(() => {
+    dispatch(resetMessage());
     const i = setInterval(() => {
       dispatch(
         addMessage({
@@ -26,40 +27,61 @@ const LiveChat = ({ info }) => {
   }, []);
   return (
     <>
-    <div className={`flex flex-row-reverse items-center h-12 w-[400px] border border-gray-500 rounded-t-xl ${showChat ? '' : 'rounded-b-xl'}`}>
-        <button className="mr-5 cursor-pointer" onClick={() => setShowChat(!showChat)}>{showChat ? <TfiClose/> : <FaChevronDown/> }</button>
-    </div>
-      {showChat && (<><div className="w-[400px] h-[400px] p-2 border-r border-l border-gray-500 bg-slate-100  overflow-y-scroll flex flex-col-reverse text-black dark:bg-black dark:text-white">
-        <div>
-          {
-            //don't use index as key
-            selector.map((i, index) => (
-              <ChatMessage name={i.name} message={i.message} key={index} />
-            ))
-          }
-        </div>
-      </div>
-      <span className="flex items-center border w-[400px] border-gray-500 justify-around h-12 rounded-b-xl pl-1"><MdAccountCircle size={30} />
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          dispatch(addMessage({ name: "Ash", message: liveMessage }));
-          setLiveMessage("");
-        }}
-        className="w-full flex justify-around"
+      <div
+        className={`flex flex-row-reverse items-center h-12 w-[400px] border border-gray-500 rounded-t-xl ${
+          showChat ? "" : "rounded-b-xl"
+        }`}
       >
-        <input
-          type="text"
-          placeholder="Type here..."
-          className="w-3/4 h-9 pl-2 text-black bg-gray-300 dark:bg-zinc-800 rounded-2xl dark:text-white"
-          value={liveMessage}
-          onChange={(e) => setLiveMessage(e.target.value)}
-        />
-        <button className="cursor-pointer"><AiOutlineSend size={25}/></button>
-      </form>
-      </span>
-      </>)
-      }
+        <button
+          className="mr-5 cursor-pointer"
+          onClick={() => setShowChat(!showChat)}
+        >
+          {showChat ? <TfiClose /> : <FaChevronDown />}
+        </button>
+      </div>
+      {showChat && (
+        <>
+          <div className="w-[400px] h-[400px] p-2 border-r border-l border-gray-500 bg-slate-100  overflow-y-scroll flex flex-col-reverse text-black dark:bg-black dark:text-white">
+            <div>
+              {
+                //don't use index as key
+                selector.map((i, index) => (
+                  <ChatMessage name={i.name} message={i.message} key={index} />
+                ))
+              }
+            </div>
+          </div>
+          <span className="flex items-center w-full max-w-md border border-gray-300 bg-white dark:bg-zinc-900 rounded-xl shadow-sm px-3 py-2 space-x-2">
+            <MdAccountCircle
+              size={30}
+              className="text-gray-600 dark:text-gray-300"
+            />
+
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                dispatch(addMessage({ name: "You", message: liveMessage }));
+                setLiveMessage("");
+              }}
+              className="flex items-center w-full space-x-2"
+            >
+              <input
+                type="text"
+                placeholder="Type your message..."
+                className="flex-grow h-9 px-3 text-sm text-black dark:text-white bg-gray-100 dark:bg-zinc-800 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={liveMessage}
+                onChange={(e) => setLiveMessage(e.target.value)}
+              />
+              <button
+                type="submit"
+                className="text-blue-500 hover:text-blue-600 transition-colors"
+              >
+                <AiOutlineSend size={24} />
+              </button>
+            </form>
+          </span>
+        </>
+      )}
     </>
   );
 };

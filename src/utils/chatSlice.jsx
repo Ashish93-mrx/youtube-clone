@@ -8,11 +8,16 @@ const chartSlice = createSlice({
   },
   reducers: {
     addMessage: (state, action) => {
-      state.message.splice(OFFSET_LIVE_CHAT, 1);
-      state.message.push(action.payload);
+      if (state.message.length >= OFFSET_LIVE_CHAT) {
+        state.message.shift(); 
+      }
+      state.message.push(action.payload); 
     },
+    resetMessage: (state) => {
+      state.message = [];
+    }
   },
 });
 
-export const { addMessage } = chartSlice.actions;
+export const { addMessage, resetMessage } = chartSlice.actions;
 export default chartSlice.reducer;
