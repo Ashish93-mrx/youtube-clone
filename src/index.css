@@ -19,8 +19,65 @@
   }
 }
 
+/* .video-watch-title {
+  font-family: "Roboto", "Arial", sans-serif;
+  font-size: 2rem;
+  line-height: 2.8rem;
+  font-weight: 700;
+  white-space: normal;
+} */
+
 .animate-shimmer {
   animation: shimmer 1.5s infinite linear;
   background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
   background-size: 1000px 100%;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #9ca3af transparent; /* thumb track */
+}
+
+/* WebKit Browsers (Chrome, Edge, Safari) */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #9ca3af; /* gray-400 */
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #6b7280; /* gray-500 */
+}
+
+/* ===============================
+   Dark Mode Scrollbar
+   =============================== */
+
+.dark *::-webkit-scrollbar-thumb {
+  background-color: #525252; /* neutral-600 */
+}
+
+.dark *::-webkit-scrollbar-thumb:hover {
+  background-color: #737373; /* neutral-500 */
+}
+
+.dark * {
+  scrollbar-color: #525252 transparent;
+}
+
+@layer base {
+  .font-roboto {
+    font-family: "Roboto", sans-serif;
+  }
 }

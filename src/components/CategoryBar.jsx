@@ -57,7 +57,7 @@ const CategoryBar = ({ selectedId, onSelect }) => {
 
       <div
         ref={scrollRef}
-        className="flex gap-3 overflow-x-auto px-12 scrollbar-none scroll-smooth"
+        className="flex gap-3 overflow-x-auto px-12 scrollbar-none scroll-smooth font-roboto"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {lists.map((item) => (

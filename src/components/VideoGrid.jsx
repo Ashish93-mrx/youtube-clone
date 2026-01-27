@@ -24,7 +24,7 @@ const VideoGrid = ({ videos = [], loading, error }) => {
   }
 
   return (
-    <div className="flex flex-wrap justify-center bg-white dark:bg-neutral-950 text-black dark:text-white">
+    <div className="flex flex-wrap justify-center bg-white dark:bg-neutral-950 font-roboto text-black dark:text-white">
       {videos.map((video) => {
         const id = typeof video.id === "object" ? video.id.videoId : video.id;
         return (

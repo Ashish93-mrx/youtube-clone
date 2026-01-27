@@ -138,7 +138,7 @@ const WatchPage = () => {
           </div>
 
           <div className="dark:dark:bg-neutral-800 bg-gray-200  rounded-lg mt-2 p-2">
-            <span>
+            <span className="cursor-pointer" onClick={() => setExpanded(!expanded)}>
               <h1 className="font-bold">
                 {videoInfo?.statistics?.viewCount &&
                   `${convertLargeNums(

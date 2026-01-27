@@ -19,9 +19,9 @@ const VideoCard = ({ info }) => {
       </div>
 
       <div className="mt-2">
-        <div className="font-semibold text-sm line-clamp-2">{title}</div>
-        <div className="text-sm text-gray-700 dark:text-gray-400">{channelTitle}</div>
-        <div className="text-sm text-gray-700 dark:text-gray-400">
+        <div className="font-medium text-[16px] text-[#0F0F0F] dark:text-[#F1F1F1] line-clamp-2">{title}</div>
+        <div className="text-sm font-normal text-[#606060] dark:text-[#AAAAAA]">{channelTitle}</div>
+        <div className="text-sm font-normal text-[#606060] dark:text-[#AAAAAA]">
           {statistics?.viewCount ? convertLargeNums(statistics.viewCount) : ""} views • {getTimeAgo(publishedAt)}
         </div>
       </div>

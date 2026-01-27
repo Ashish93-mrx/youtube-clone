@@ -7,10 +7,8 @@ import { removeSearch } from "../utils/resultSlice";
 import { toggleTheme } from "../utils/themeSlice";
 import { YOUTUBE_SEARCH_SUGGESTION_API, ACC_LOGO } from "../utils/constants";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { MdOutlineLightMode, MdDarkMode } from "react-icons/md";
 import { CiSearch } from "react-icons/ci";
-import ytLogoLight from "../assets/ytLogo.png";
-import ytLogoDark from "../assets/ytLogo-dark.png";
+import { anime_logo } from "../assets";
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -41,7 +39,7 @@ const Head = () => {
         dispatch(
           cacheResults({
             [searchQuery]: searchCache[searchQuery],
-          })
+          }),
         );
       } else {
         getSearchSuggestions();
@@ -62,11 +60,11 @@ const Head = () => {
   const getSearchSuggestions = async () => {
     try {
       const response = await fetch(
-        YOUTUBE_SEARCH_SUGGESTION_API + encodeURIComponent(searchQuery)
+        YOUTUBE_SEARCH_SUGGESTION_API + encodeURIComponent(searchQuery),
       );
       const text = await response.text();
       const json = await JSON.parse(
-        text.substring(text.indexOf("["), text.lastIndexOf("]") + 1)
+        text.substring(text.indexOf("["), text.lastIndexOf("]") + 1),
       );
       const suggestions = await json[1].map((item) => item[0]);
       setSuggestions(suggestions);
@@ -74,7 +72,7 @@ const Head = () => {
       dispatch(
         cacheResults({
           [searchQuery]: suggestions,
-        })
+        }),
       );
       // Use the suggestions as needed
     } catch (error) {
@@ -87,7 +85,7 @@ const Head = () => {
   };
   return (
     <>
-      <div className="grid grid-flow-col p-2 shadow-lg sticky top-0 z-50">
+      <div className="grid grid-flow-col px-2 shadow-lg sticky top-0 z-50">
         <div className="flex items-center col-span-1">
           <span
             onClick={() => toggleMenuHandle()}
@@ -96,24 +94,15 @@ const Head = () => {
             <RxHamburgerMenu size={25} />
           </span>
           <Link to="/">
-            {darkMode ? (
               <img
                 onClick={() => dispatch(removeSearch())}
-                className="hidden md:block md:mx-6 md:w-24 pl-2 cursor-pointer"
-                alt="YT"
-                src={ytLogoDark}
+                className="hidden md:block md:h-full md:mx-2 md:w-32 cursor-pointer"
+                alt="YT Promo"
+                src={anime_logo}
               />
-            ) : (
-              <img
-                onClick={() => dispatch(removeSearch())}
-                className="hidden md:block md:h-6 md:mx-2 md:w-32 cursor-pointer"
-                alt="YT"
-                src={ytLogoLight}
-              />
-            )}
           </Link>
         </div>
-        <div ref={wrapperRef} className="col-span-10 px-10 relative">
+        <div ref={wrapperRef} className="col-span-10 px-10 flex items-center relative">
           <div className="flex w-full md:w-2/4">
             <div className="relative w-full">
               <input
@@ -128,8 +117,8 @@ const Head = () => {
                   e.key === "Enter" &&
                   navigate(
                     `/results?search_query=${encodeURIComponent(
-                      searchQuery.trim()
-                    )}`
+                      searchQuery.trim(),
+                    )}`,
                   ) &&
                   setShowSuggestions(false)
                 }
@@ -153,8 +142,8 @@ const Head = () => {
                 searchQuery.trim() !== "" &&
                 navigate(
                   `/results?search_query=${encodeURIComponent(
-                    searchQuery.trim()
-                  )}`
+                    searchQuery.trim(),
+                  )}`,
                 )
               }
               className="border border-gray-400 px-4 rounded-r-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white"
