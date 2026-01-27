@@ -102,7 +102,7 @@ const Head = () => {
               />
           </Link>
         </div>
-        <div ref={wrapperRef} className="col-span-10 px-10 flex items-center relative">
+        <div ref={wrapperRef} className="col-span-10 pt-2 px-10 relative">
           <div className="flex w-full md:w-2/4">
             <div className="relative w-full">
               <input
@@ -153,7 +153,7 @@ const Head = () => {
           </div>
 
           <div className="absolute">
-            <div className="bg-white md:w-[27rem] rounded-2xl shadow-2xl border-gray-100 dark:bg-slate-900 dark:text-white dark:border-gray-900">
+            <div className="bg-white md:w-[28rem] rounded-2xl shadow-4xl border-gray-100 dark:bg-slate-900 dark:text-white dark:border-gray-900">
               {showSuggestions && suggestions?.length > 0 && (
                 <ul className="py-4">
                   {suggestions.map((item, idx) => (
