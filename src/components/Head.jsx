@@ -94,20 +94,35 @@ const Head = () => {
             <RxHamburgerMenu size={25} />
           </span>
           <Link to="/">
-              <img
-                onClick={() => dispatch(removeSearch())}
-                className="hidden md:block md:h-full md:mx-2 md:w-32 cursor-pointer"
-                alt="YT Promo"
-                src={anime_logo}
-              />
+            <img
+              onClick={() => dispatch(removeSearch())}
+              className="hidden md:block md:h-full md:mx-2 md:w-32 cursor-pointer"
+              alt="YT Promo"
+              src={anime_logo}
+            />
           </Link>
         </div>
-        <div ref={wrapperRef} className="col-span-10 pt-2 px-10 relative">
+        <div
+          ref={wrapperRef}
+          className="col-span-10 px-10 md:pt-2 md:h-[10px] relative"
+        >
           <div className="flex w-full md:w-2/4">
             <div className="relative w-full">
               <input
                 placeholder="Search"
-                className="w-full border border-gray-300 focus:outline-none focus:border-blue-500 hover:border-blue-500 p-2 pr-10 rounded-l-full bg-white text-black dark:bg-gray-900 dark:text-white dark:border-gray-600 dark:focus:border-blue-500 dark:hover:border-blue-500"
+                className="
+  w-full
+  border border-gray-300
+  rounded-l-full
+  bg-white text-black
+  dark:bg-gray-900 dark:text-white dark:border-gray-600
+
+  h-9 px-3 text-sm     
+  md:h-10 md:px-4 md:text-base  
+
+  focus:outline-none focus:border-blue-500
+  hover:border-blue-500
+"
                 type="text"
                 ref={searchInput}
                 value={searchQuery}
