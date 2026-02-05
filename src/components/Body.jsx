@@ -18,10 +18,14 @@ const Body = () => {
 
   return (
     <div className="bg-white dark:bg-neutral-900">
-      <div className="grid grid-flow-col sticky top-0 z-50 
+      <div
+        className="grid grid-flow-col sticky top-0 z-50 
             bg-white/70 dark:bg-neutral-900/70
             backdrop-blur-md backdrop-saturate-150 
-            text-black dark:text-white"><Head /></div>
+            text-black dark:text-white"
+      >
+        <Head />
+      </div>
       <ScrollToTop />
       <div className="relative">
         <Sidebar />
