@@ -173,20 +173,23 @@ const Head = () => {
                 <ul className="py-4">
                   {suggestions.map((item, idx) => (
                     <li
-                      onClick={() => {
-                        getSearchResult(item);
-                      }}
                       key={idx}
                       className="py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+
+                        setSearchQuery(item);
+                        setShowSuggestions(false);
+
+                        navigate(
+                          `/results?search_query=${encodeURIComponent(item)}`,
+                        );
+                      }}
                     >
-                      <Link
-                        to={`/results?search_query=${encodeURIComponent(item)}`}
-                      >
-                        <span className="flex items-center gap-2 pl-2">
-                          <CiSearch size={15} />
-                          {item}
-                        </span>
-                      </Link>
+                      <span className="flex items-center gap-2 pl-2">
+                        <CiSearch size={15} />
+                        {item}
+                      </span>
                     </li>
                   ))}
                 </ul>
