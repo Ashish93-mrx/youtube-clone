@@ -16,7 +16,6 @@ const Head = () => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const wrapperRef = useRef(null);
   const searchInput = useRef(null);
-
   const searchCache = useSelector((state) => state.search.cache);
   const darkMode = useSelector((state) => state.theme.darkMode);
   const dispatch = useDispatch();
@@ -163,7 +162,24 @@ const Head = () => {
               }
               className="border border-gray-400 px-4 rounded-r-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white"
             >
-              <CiSearch />
+              {/* <CiSearch /> */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24"
+                width="24"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                focusable="false"
+                aria-hidden="true"
+                style={{
+                  pointerEvents: "none",
+                  display: "inherit",
+                  width: "100%",
+                  height: "100%",
+                }}
+              >
+                <path d="M11 2a9 9 0 105.641 16.01.966.966 0 00.152.197l3.5 3.5a1 1 0 101.414-1.414l-3.5-3.5a1 1 0 00-.197-.153A8.96 8.96 0 0020 11a9 9 0 00-9-9Zm0 2a7 7 0 110 14 7 7 0 010-14Z" />
+              </svg>
             </button>
           </div>
 
@@ -173,23 +189,20 @@ const Head = () => {
                 <ul className="py-4">
                   {suggestions.map((item, idx) => (
                     <li
+                      onClick={() => {
+                        getSearchResult(item);
+                      }}
                       key={idx}
                       className="py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
-                      onMouseDown={(e) => {
-                        e.preventDefault();
-
-                        setSearchQuery(item);
-                        setShowSuggestions(false);
-
-                        navigate(
-                          `/results?search_query=${encodeURIComponent(item)}`,
-                        );
-                      }}
                     >
-                      <span className="flex items-center gap-2 pl-2">
-                        <CiSearch size={15} />
-                        {item}
-                      </span>
+                      <Link
+                        to={`/results?search_query=${encodeURIComponent(item)}`}
+                      >
+                        <span className="flex items-center gap-2 pl-2">
+                          <CiSearch size={15} />
+                          {item}
+                        </span>
+                      </Link>
                     </li>
                   ))}
                 </ul>
